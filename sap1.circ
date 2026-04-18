@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="4.1.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v4.1.0(https://github.com/logisim-evolution/).
+
+  <lib desc="#Wiring" name="0">
+    <tool name="Splitter">
+      <a name="facing" val="south"/>
+    </tool>
+    <tool name="Pin">
+      <a name="appearance" val="classic"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#FPArithmetic" name="4"/>
+  <lib desc="#Memory" name="5"/>
+  <lib desc="#I/O" name="6">
+    <tool name="LED">
+      <a name="facing" val="north"/>
+    </tool>
+  </lib>
+  <lib desc="#TTL" name="7"/>
+  <lib desc="#TCL" name="8"/>
+  <lib desc="#Base" name="9"/>
+  <lib desc="#BFH-Praktika" name="10"/>
+  <lib desc="#Input/Output-Extra" name="11"/>
+  <lib desc="#Soc" name="12"/>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="9" map="Button2" name="Poke Tool"/>
+    <tool lib="9" map="Button3" name="Menu Tool"/>
+    <tool lib="9" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="9" name="Poke Tool"/>
+    <tool lib="9" name="Edit Tool"/>
+    <tool lib="9" name="Wiring Tool"/>
+    <tool lib="9" name="Text Tool"/>
+    <sep/>
+    <tool lib="0" name="Pin"/>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="type" val="output"/>
+    </tool>
+    <sep/>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+    <tool lib="1" name="XOR Gate"/>
+    <tool lib="1" name="NAND Gate"/>
+    <tool lib="1" name="NOR Gate"/>
+    <sep/>
+    <tool lib="5" name="D Flip-Flop"/>
+    <tool lib="5" name="Register"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="main"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(1490,730)" name="Clock">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1510,710)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1520,550)" name="Clock">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1550,530)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1550,570)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1550,590)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1840,530)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(1840,690)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(1840,820)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(1930,1020)" name="Splitter">
+      <a name="appear" val="right"/>
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(1930,740)" name="Splitter">
+      <a name="appear" val="right"/>
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(1990,680)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1990,700)" name="Clock">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1990,720)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(2000,1000)" name="Clock">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(2000,980)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(2020,890)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(2020,910)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(2240,680)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(2250,850)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="0" loc="(2250,980)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="9" loc="(1589,718)" name="Text">
+      <a name="text" val="mar"/>
+    </comp>
+    <comp lib="9" loc="(2277,831)" name="Text">
+      <a name="text" val="add sum result"/>
+    </comp>
+    <comp lib="9" loc="(2289,654)" name="Text">
+      <a name="text" val="accumulator output"/>
+    </comp>
+    <comp lib="9" loc="(2298,961)" name="Text">
+      <a name="text" val="b output"/>
+    </comp>
+    <comp loc="(1740,710)" name="CUM2">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(1740,820)" name="ram_hi16x8">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(1770,530)" name="programcounter">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(2220,980)" name="b_reg">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(2240,680)" name="accumulator">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <comp loc="(2240,850)" name="test">
+      <a name="appearance" val="logisim_evolution"/>
+    </comp>
+    <wire from="(1410,680)" to="(1410,750)"/>
+    <wire from="(1410,680)" to="(1840,680)"/>
+    <wire from="(1410,750)" to="(1520,750)"/>
+    <wire from="(1490,730)" to="(1520,730)"/>
+    <wire from="(1510,710)" to="(1520,710)"/>
+    <wire from="(1520,550)" to="(1550,550)"/>
+    <wire from="(1520,800)" to="(1520,820)"/>
+    <wire from="(1520,800)" to="(1740,800)"/>
+    <wire from="(1520,820)" to="(1540,820)"/>
+    <wire from="(1530,840)" to="(1540,840)"/>
+    <wire from="(1740,710)" to="(1740,800)"/>
+    <wire from="(1740,820)" to="(1840,820)"/>
+    <wire from="(1770,530)" to="(1840,530)"/>
+    <wire from="(1840,680)" to="(1840,690)"/>
+    <wire from="(1850,1040)" to="(1850,1390)"/>
+    <wire from="(1850,550)" to="(1850,710)"/>
+    <wire from="(1850,710)" to="(1850,760)"/>
+    <wire from="(1850,760)" to="(1850,840)"/>
+    <wire from="(1850,840)" to="(1850,1040)"/>
+    <wire from="(1860,1040)" to="(1860,1390)"/>
+    <wire from="(1860,550)" to="(1860,710)"/>
+    <wire from="(1860,710)" to="(1860,760)"/>
+    <wire from="(1860,760)" to="(1860,840)"/>
+    <wire from="(1860,840)" to="(1860,1040)"/>
+    <wire from="(1870,1040)" to="(1870,1390)"/>
+    <wire from="(1870,550)" to="(1870,710)"/>
+    <wire from="(1870,710)" to="(1870,760)"/>
+    <wire from="(1870,760)" to="(1870,840)"/>
+    <wire from="(1870,840)" to="(1870,1040)"/>
+    <wire from="(1880,1040)" to="(1880,1390)"/>
+    <wire from="(1880,550)" to="(1880,710)"/>
+    <wire from="(1880,710)" to="(1880,760)"/>
+    <wire from="(1880,760)" to="(1880,840)"/>
+    <wire from="(1880,840)" to="(1880,1040)"/>
+    <wire from="(1890,1040)" to="(1890,1390)"/>
+    <wire from="(1890,550)" to="(1890,710)"/>
+    <wire from="(1890,710)" to="(1890,760)"/>
+    <wire from="(1890,760)" to="(1890,840)"/>
+    <wire from="(1890,840)" to="(1890,1040)"/>
+    <wire from="(1900,1040)" to="(1900,1390)"/>
+    <wire from="(1900,550)" to="(1900,710)"/>
+    <wire from="(1900,710)" to="(1900,760)"/>
+    <wire from="(1900,760)" to="(1900,840)"/>
+    <wire from="(1900,840)" to="(1900,1040)"/>
+    <wire from="(1910,1040)" to="(1910,1390)"/>
+    <wire from="(1910,550)" to="(1910,710)"/>
+    <wire from="(1910,710)" to="(1910,760)"/>
+    <wire from="(1910,760)" to="(1910,840)"/>
+    <wire from="(1910,840)" to="(1910,1040)"/>
+    <wire from="(1920,1040)" to="(1920,1390)"/>
+    <wire from="(1920,550)" to="(1920,710)"/>
+    <wire from="(1920,710)" to="(1920,760)"/>
+    <wire from="(1920,760)" to="(1920,840)"/>
+    <wire from="(1920,840)" to="(1920,1040)"/>
+    <wire from="(1930,1020)" to="(2000,1020)"/>
+    <wire from="(1930,740)" to="(2020,740)"/>
+    <wire from="(1970,810)" to="(1970,850)"/>
+    <wire from="(1970,810)" to="(2240,810)"/>
+    <wire from="(1970,850)" to="(2020,850)"/>
+    <wire from="(1970,870)" to="(1970,950)"/>
+    <wire from="(1970,870)" to="(2020,870)"/>
+    <wire from="(1970,950)" to="(2250,950)"/>
+    <wire from="(1990,680)" to="(2020,680)"/>
+    <wire from="(1990,700)" to="(2020,700)"/>
+    <wire from="(1990,720)" to="(2020,720)"/>
+    <wire from="(2220,980)" to="(2250,980)"/>
+    <wire from="(2240,700)" to="(2240,810)"/>
+    <wire from="(2240,850)" to="(2250,850)"/>
+    <wire from="(2250,950)" to="(2250,980)"/>
+  </circuit>
+  <vhdl name="programcounter">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+-- c_p = when active increment on falling edge
+-- e_p = when active put program register onto bus
+-- nclr = active low clr
+-- nclk = active low clk
+
+entity programcounter is -- WORKING
+  port (
+    C_P        : in std_logic;
+    nCLK       : in std_logic;
+    nCLR       : in std_logic;
+    E_P        : in std_logic; -- will be used on top level implementation
+    pc_bus_out : out std_logic_vector(7 downto 0)
+  );
+end;
+
+architecture programcounter_rtl of programcounter is
+  signal programcounter_reg : unsigned(3 downto 0) := (others =&gt; '0');
+begin
+  process (nCLK)
+  begin
+    if rising_edge(nCLK) then
+      if nCLR = '0' then
+        programcounter_reg &lt;= (others =&gt; '0');
+      elsif C_P = '1' then
+        programcounter_reg &lt;= programcounter_reg + 1;
+      end if;
+    end if;
+  end process;
+  pc_bus_out &lt;= "0000" &amp; std_logic_vector(programcounter_reg) when E_P = '1' else (others =&gt; 'Z');
+end architecture;</vhdl>
+  <vhdl name="accumulator">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+--nL_A = active low loading into accumulator
+--e_a = active high loading from accumulator onto bus
+-- CLK = active high clock
+
+entity accumulator is --WORKING
+  port (
+    nL_A        : in std_logic;
+    CLK         : in std_logic;
+    E_A         : in std_logic;
+    acc_bus_in  : in std_logic_vector(7 downto 0);
+    acc_bus_out : out std_logic_vector(7 downto 0);
+    addsub_in   : out std_logic_vector(7 downto 0)
+
+  );
+end;
+architecture accumulator_rtl of accumulator is
+  signal accumulator_reg : std_logic_vector(7 downto 0) := (others =&gt; '0');
+begin
+  process (CLK)
+  begin
+    if rising_edge(CLK) then
+      if nL_A = '0' then
+        accumulator_reg &lt;= acc_bus_in;
+      end if;
+    end if;
+  end process;
+
+  acc_bus_out &lt;= accumulator_reg when E_A = '1' else
+    (others =&gt; 'Z');
+
+  addsub_in &lt;= accumulator_reg;
+end architecture;</vhdl>
+  <vhdl name="b_reg">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity b_reg is --WORKING
+  port (
+    nL_B        : in std_logic;
+    CLK         : in std_logic;
+    b_bus_in    : in std_logic_vector(7 downto 0);
+    b_accum_out : out std_logic_vector(7 downto 0)
+
+  );
+end;
+
+architecture b_rtl of b_reg is
+  signal b_reg : std_logic_vector(7 downto 0) := (others =&gt; '0');
+begin
+  process (CLK)
+  begin
+    if rising_edge(CLK) then
+      if nL_B = '0' then
+        b_reg &lt;= b_bus_in;
+      end if;
+    end if;
+  end process;
+
+  b_accum_out &lt;= b_reg;
+end architecture;</vhdl>
+  <vhdl name="ram_hi16x8">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity ram_hi16x8 is
+  port (
+    mar_addr     : in std_logic_vector (3 downto 0);
+    nCE           : in std_logic;
+    data_out_bus : out std_logic_vector(7 downto 0) 
+  );
+end;
+
+architecture rtl_ram_hi of ram_hi16x8 is
+  type ram_hi_type is array (0 to 15) of STD_LOGIC_VECTOR(7 downto 0);
+  signal ram_hi : ram_hi_type := (
+    0 =&gt; "00000101", -- LDA 5
+    1 =&gt; "00010110", -- ADD 6
+    2 =&gt; "11100000", -- output
+    5 =&gt; "00000101",
+    6 =&gt; "00000101",
+    others =&gt; (others =&gt; '0')
+  );
+begin
+  data_out_bus &lt;= ram_hi(to_integer(unsigned(mar_addr))) when nCE='0' else (others =&gt; 'Z');
+  
+
+end architecture;</vhdl>
+  <vhdl name="test">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity test is
+  port (
+    A                : in std_logic_vector(7 downto 0);
+    B                : in std_logic_vector(7 downto 0);
+    S_U              : in std_logic; -- 0 = ADD, 1 = SUB
+    E_U              : in std_logic; -- enable to bus
+    hello_hi_bus_out : out std_logic_vector(7 downto 0)
+  );
+end;
+
+architecture hello_hi_rtl of test is
+
+  signal result : std_logic_vector(7 downto 0);
+begin
+
+  process (A, B, S_U)
+  begin
+    if S_U = '0' then
+      result &lt;= std_logic_vector(unsigned(A) + unsigned(B));
+    else
+      result &lt;= std_logic_vector(unsigned(A) - unsigned(B));
+    end if;
+  end process;
+
+  hello_hi_bus_out &lt;= result when E_U = '1' else
+    (others =&gt; 'Z');
+
+end;</vhdl>
+  <vhdl name="CUM2">library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity CUM2 is
+  port (
+    nLM          : in std_logic;
+    CLK          : in std_logic;
+    bus_in       : in std_logic_vector(7 downto 0);
+    marge_addr_out : out std_logic_vector(3 downto 0)
+  );
+end;
+
+architecture marge_rtl of CUM2 is
+  signal marge_reg : std_logic_vector(3 downto 0) := (others =&gt; '0');
+begin
+  process (CLK)
+  begin
+    if rising_edge(CLK) then
+      if nLM = '0' then
+        marge_reg &lt;= bus_in(3 downto 0); -- only lower 4 bits
+      end if;
+    end if;
+  end process;
+
+  marge_addr_out &lt;= marge_reg;
+end architecture;</vhdl>
+</project>
