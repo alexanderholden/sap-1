@@ -2,24 +2,24 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
--- CP = when active increment on falling edge
--- EP = when active put program register onto bus
--- nCLR = active low clr
--- nCLK = active low clk
+-- c_p = when active increment on falling edge
+-- e_p = when active put program register onto bus
+-- nclr = active low clr
+-- nclk = active low clk
 
-entity program_counter is -- WORKING
+entity programcounter is -- WORKING
   port (
-    CP         : in std_logic;
+    C_P        : in std_logic;
     nCLK       : in std_logic;
     nCLR       : in std_logic;
-    EP         : in std_logic;
-    LP         : in std_logic;
+    E_P        : in std_logic; -- will be used on top level implementation
+    L_P        : in std_logic;
     pc_bus_in  : in std_logic_vector(3 downto 0);
     pc_bus_out : out std_logic_vector(7 downto 0)
   );
 end;
 
-architecture program_counter_rtl of program_counter is
+architecture programcounter_rtl of programcounter is
   signal programcounter_reg : unsigned(3 downto 0) := (others => '0');
 begin
   process (nCLK)
@@ -27,14 +27,14 @@ begin
     if nCLR = '0' then
       programcounter_reg <= (others => '0');
     elsif falling_edge(nCLK) then
-      if CP = '1' then
+      if L_P = '1' then
+        programcounter_reg <= unsigned(pc_bus_in);
+      elsif C_P = '1' then
         programcounter_reg <= programcounter_reg + 1;
-      elsif LP = '1' then
-        programcounter_reg <= UNSIGNED(pc_bus_in);
       end if;
     end if;
   end process;
-  pc_bus_out <= "0000" & std_logic_vector(programcounter_reg) when EP = '1' else
+  pc_bus_out <= "0000" & std_logic_vector(programcounter_reg) when E_P = '1' else
     (others => 'Z');
 end architecture;
 
@@ -147,7 +147,13 @@ entity ram16x8 is
   port (
     mar_addr    : in std_logic_vector(3 downto 0);
     CE          : in std_logic; -- active high
-    ram_bus_out : out std_logic_vector(7 downto 0)
+    ram_bus_out : out std_logic_vector(7 downto 0);
+    WE          : in std_logic;
+    data_in     : in std_logic_vector(7 downto 0);
+    clk         : in std_logic;
+    temp_ram_12_out : out STD_LOGIC_VECTOR (7 downto 0)
+
+
   );
 end;
 
@@ -172,6 +178,15 @@ architecture rtl_ram of ram16x8 is
   15 => "00000000"
   );
 begin
+  process (clk)
+  begin
+    if rising_edge(clk) then
+      if CE = '1' and WE = '1' then
+        ram(to_integer(unsigned(mar_addr))) <= data_in;
+      end if;
+    end if;
+  end process;
+  temp_ram_12_out <= ram(11); 
   ram_bus_out <= ram(to_integer(unsigned(mar_addr))) when CE = '1' else
     (others => 'Z');
 end architecture;
