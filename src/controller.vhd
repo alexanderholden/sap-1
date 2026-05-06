@@ -1,3 +1,21 @@
+----------------------------------------------------------------------------------
+-- Company:  Benha Faculty of Engineering
+-- Engineer: Mariam El-Shakafi
+
+-- Create Date:    03:29:25 05/06/2019 
+-- Module Name:    Controller - Behavioral 
+-- Project Name:   SAP1-VHDL
+
+-- Description: This is an implementation of SAP1 control unit. 
+-- Instruction cycle consists of 6 clock cycles as follows
+-- Fetch cycle --> (t0:t2)
+-- Execution cycle --> (t3: t5)
+-- As well as an idle state for reset
+
+-- Dependencies: None
+
+-- Version: 1.0 
+----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
@@ -20,7 +38,6 @@ entity Controller is
     Eu      : out std_logic;
     Lb      : out std_logic;
     Lo      : out std_logic;
-    Lp      : out std_logic;
     HLT     : out std_logic);
 end Controller;
 
@@ -28,10 +45,12 @@ architecture Behavioral of Controller is
 
   type state is (idle, t0, t1, t2, t3, t4, t5);
   signal pr_state, nx_state : state                          := t0;
-  signal control_signal     : std_logic_vector (12 downto 0) := (others => '0');
+  signal control_signal     : std_logic_vector (11 downto 0) := (others => '0');
   signal HLT_sig            : std_logic                      := '1';
 
 begin
+
+  -- This process if for updating current state.
   process (clk, clr)
   begin
     if clr = '0' then
@@ -40,44 +59,43 @@ begin
       pr_state <= nx_state;
     end if;
   end process;
+  -- This process does the actual transition logic and operations.
   process (pr_state)
   begin
     case pr_state is
       when idle =>
         --Do nothing
-        control_signal <= "0000000000000";
+        control_signal <= "000000000000";
         HLT_sig        <= '1';
         nx_state       <= t0;
 
       when t0 =>
         --Enable PC (Ep = 1), Load into MAR (Lm = 1)
-        control_signal <= "0011000000000";
+        control_signal <= "011000000000";
         nx_state       <= t1;
 
       when t1 =>
         --Increment PC (Cp = 1)
-        control_signal <= "0100000000000";
+        control_signal <= "100000000000";
         nx_state       <= t2;
 
       when t2 =>
         --Enable memory (CE = 1), Load into IR (Li = 1)
-        control_signal <= "0000110000000";
+        control_signal <= "000110000000";
         nx_state       <= t3;
 
       when t3 =>
         --OUT
         if inst_in = "1110" then
           --Enable AC, Load into OUT
-          control_signal <= "0000000010001";
+          control_signal <= "000000010001";
           --HALT
         elsif inst_in = "1111" then
-          control_signal <= "0000000000000";
+          control_signal <= "000000000000";
           HLT_sig        <= '0';
           --Other instructions
-        elsif inst_in = "0110" then
-          control_signal <= "1000001000000";
         else
-          control_signal <= "0001001000000";
+          control_signal <= "001001000000";
         end if;
         nx_state <= t4;
 
@@ -85,18 +103,18 @@ begin
         --LDA
         if inst_in = "0000" then
           --Enable memory, Load into AC
-          control_signal <= "0000100100000";
+          control_signal <= "000100100000";
           --ADD
         elsif inst_in = "0001" then
           --Enable memory, Load into B
-          control_signal <= "0000100000010";
+          control_signal <= "000100000010";
           --SUB
         elsif inst_in = "0010" then
           --Enable memory, Load into B
-          control_signal <= "0000100000010";
+          control_signal <= "000100000010";
           --Other instructions
         else
-          control_signal <= "0000000000000";
+          control_signal <= "000000000000";
         end if;
         nx_state <= t5;
 
@@ -104,14 +122,14 @@ begin
         --ADD
         if inst_in = "0001" then
           --Enable ALU, Load into AC, Su = 0 for ADD
-          control_signal <= "0000000100100";
+          control_signal <= "000000100100";
           --SUB
         elsif inst_in = "0010" then
           --Enable ALU, Load into AC, Su = 1 for SUB
-          control_signal <= "0000000101100";
+          control_signal <= "000000101100";
           --Other instructions
         else
-          control_signal <= "0000000000000";
+          control_signal <= "000000000000";
         end if;
         nx_state <= t0;
 
@@ -119,7 +137,7 @@ begin
   end process;
 
   --Move control signal to output
-  Lp  <= control_signal(12);
+
   Cp  <= control_signal(11);
   Ep  <= control_signal(10);
   Lm  <= control_signal(9);

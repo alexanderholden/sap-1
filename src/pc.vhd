@@ -13,7 +13,6 @@ entity programcounter is -- WORKING
     nCLK       : in std_logic;
     nCLR       : in std_logic;
     E_P        : in std_logic; -- will be used on top level implementation
-    L_P        : in std_logic;
     pc_bus_in  : in std_logic_vector(3 downto 0);
     pc_bus_out : out std_logic_vector(7 downto 0)
   );
@@ -27,9 +26,7 @@ begin
     if nCLR = '0' then
       programcounter_reg <= (others => '0');
     elsif falling_edge(nCLK) then
-      if L_P = '1' then
-        programcounter_reg <= unsigned(pc_bus_in);
-      elsif C_P = '1' then
+      if C_P = '1' then
         programcounter_reg <= programcounter_reg + 1;
       end if;
     end if;
