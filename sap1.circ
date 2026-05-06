@@ -64,10 +64,24 @@
     <a name="circuit" val="main"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="16000.0"/>
+    <comp lib="0" loc="(1070,1480)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1070,1520)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(1080,1590)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="8"/>
+    </comp>
     <comp lib="0" loc="(1290,1230)" name="Clock">
       <a name="appearance" val="NewPins"/>
     </comp>
     <comp lib="0" loc="(1290,1250)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1290,1610)" name="Pin">
       <a name="appearance" val="NewPins"/>
     </comp>
     <comp lib="0" loc="(1300,1400)" name="Clock">
@@ -78,6 +92,14 @@
     </comp>
     <comp lib="0" loc="(1310,1670)" name="Pin">
       <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1330,1570)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(1560,1860)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
     </comp>
     <comp lib="0" loc="(1680,1130)" name="Clock">
       <a name="appearance" val="NewPins"/>
@@ -202,6 +224,9 @@
     <comp loc="(2260,1360)" name="test">
       <a name="appearance" val="logisim_evolution"/>
     </comp>
+    <wire from="(1070,1480)" to="(1290,1480)"/>
+    <wire from="(1070,1520)" to="(1070,1530)"/>
+    <wire from="(1080,1590)" to="(1330,1590)"/>
     <wire from="(1160,1690)" to="(1330,1690)"/>
     <wire from="(1160,810)" to="(1160,1690)"/>
     <wire from="(1160,810)" to="(1780,810)"/>
@@ -213,6 +238,7 @@
     <wire from="(1240,850)" to="(1740,850)"/>
     <wire from="(1290,1230)" to="(1340,1230)"/>
     <wire from="(1290,1250)" to="(1340,1250)"/>
+    <wire from="(1290,1610)" to="(1330,1610)"/>
     <wire from="(1300,1380)" to="(1330,1380)"/>
     <wire from="(1300,1400)" to="(1330,1400)"/>
     <wire from="(1300,860)" to="(1300,1380)"/>
@@ -235,9 +261,11 @@
     <wire from="(1340,880)" to="(1680,880)"/>
     <wire from="(1550,1380)" to="(1550,1490)"/>
     <wire from="(1550,1530)" to="(1760,1530)"/>
+    <wire from="(1550,1550)" to="(1560,1550)"/>
     <wire from="(1550,1630)" to="(1760,1630)"/>
     <wire from="(1550,1650)" to="(1720,1650)"/>
     <wire from="(1560,1210)" to="(1760,1210)"/>
+    <wire from="(1560,1550)" to="(1560,1860)"/>
     <wire from="(1620,1360)" to="(1620,1460)"/>
     <wire from="(1620,1460)" to="(1760,1460)"/>
     <wire from="(1680,1100)" to="(1680,1130)"/>
@@ -517,41 +545,48 @@ use IEEE.numeric_std.all;
 
 entity ram16x8 is
   port (
-    mar_addr     : in  std_logic_vector(3 downto 0);
-    CE           : in  std_logic;  -- active high
-    data_out_bus : out std_logic_vector(7 downto 0)
+    mar_addr        : in std_logic_vector(3 downto 0);
+    CE              : in std_logic; -- active high
+    ram_bus_out     : out std_logic_vector(7 downto 0);
+    WE              : in std_logic;
+    data_in         : in std_logic_vector(8 downto 0);
+    clk             : in std_logic;
+    temp_ram_12_out : out std_logic_vector (7 downto 0)
   );
 end;
 
 architecture rtl_ram of ram16x8 is
-
   type ram_type is array (0 to 15) of std_logic_vector(7 downto 0);
-
-signal ram : ram_type := (
+  signal ram : ram_type := (
   0  =&gt; "00001001", -- LDA @9
-  1  =&gt; "11101111", -- ADD @12
-  2  =&gt; "00101100", -- OUT
-  3  =&gt; "11101111", -- JMP @1
-  4  =&gt; "00000000", -- HLT (unused)
+  1  =&gt; "00011100", -- ADD @12
+  2  =&gt; "11101111", -- OUT
+  3  =&gt; "00000000", -- JMP @1
+  4  =&gt; "01100001", -- HLT (unused)
   5  =&gt; "00000000",
   6  =&gt; "00000000",
   7  =&gt; "00000000",
   8  =&gt; "00000000",
-
-  -- data
-  9  =&gt; "00000001", 
-  10 =&gt; "00000001", 
+  9  =&gt; "00000001",
+  10 =&gt; "00000001",
   11 =&gt; "00000001",
   12 =&gt; "00000001",
   13 =&gt; "00000000",
   14 =&gt; "00000000",
   15 =&gt; "00000000"
-);
+  );
 begin
-
-  data_out_bus &lt;= ram(to_integer(unsigned(mar_addr))) when CE = '1'
-                  else (others =&gt; 'Z');
-
+  process (clk)
+  begin
+    if clk = '1' then
+      if CE = '1' and WE = '1' then
+        ram(to_integer(unsigned(mar_addr))) &lt;= data_in;
+      end if;
+    end if;
+  end process;
+  temp_ram_12_out &lt;= ram(12);
+  ram_bus_out     &lt;= ram(to_integer(unsigned(mar_addr))) when CE = '1' else
+    (others =&gt; 'Z');
 end architecture;</vhdl>
   <vhdl name="test">library IEEE;
 use IEEE.std_logic_1164.all;
