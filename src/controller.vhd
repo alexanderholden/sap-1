@@ -1,21 +1,3 @@
-----------------------------------------------------------------------------------
--- Company:  Benha Faculty of Engineering
--- Engineer: Mariam El-Shakafi
-
--- Create Date:    03:29:25 05/06/2019 
--- Module Name:    Controller - Behavioral 
--- Project Name:   SAP1-VHDL
-
--- Description: This is an implementation of SAP1 control unit. 
--- Instruction cycle consists of 6 clock cycles as follows
--- Fetch cycle --> (t0:t2)
--- Execution cycle --> (t3: t5)
--- As well as an idle state for reset
-
--- Dependencies: None
-
--- Version: 1.0 
-----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
@@ -49,8 +31,6 @@ architecture Behavioral of Controller is
   signal HLT_sig            : std_logic                      := '1';
 
 begin
-
-  -- This process if for updating current state.
   process (clk, clr)
   begin
     if clr = '0' then
@@ -59,7 +39,6 @@ begin
       pr_state <= nx_state;
     end if;
   end process;
-  -- This process does the actual transition logic and operations.
   process (pr_state)
   begin
     case pr_state is
@@ -137,7 +116,6 @@ begin
   end process;
 
   --Move control signal to output
-
   Cp  <= control_signal(11);
   Ep  <= control_signal(10);
   Lm  <= control_signal(9);
