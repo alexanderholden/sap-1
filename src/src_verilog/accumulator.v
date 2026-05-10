@@ -16,7 +16,7 @@ module accumulator( // WORKING
     end
 
     // Output onto bus (tri-state behavior)
-    assign acc_bus_out = (EA) ? accumulator_reg : 8'bz;
+    assign acc_bus_out = accumulator_reg;
 
     // Always drive add/sub input
     assign add_sub_input = accumulator_reg;

@@ -8,7 +8,6 @@ module add_sub(
 
     reg [7:0] result;
 
-    // Combinational add/subtract
     always @(*) begin
         if (SU == 1'b0)
             result = A + B;
@@ -16,7 +15,6 @@ module add_sub(
             result = A - B;
     end
 
-    // Tri-state bus output
-    assign ADD_SUB_bus_out = (EU) ? result : 8'bz;
+    assign ADD_SUB_bus_out = result;
 
 endmodule

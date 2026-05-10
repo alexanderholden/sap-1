@@ -18,6 +18,6 @@ module programcounter(
     end
 
     // Output with zero-extended upper bits
-    assign pc_bus_out = (E_P) ? {4'b0000, programcounter_reg} : 8'bz;
+    assign pc_bus_out = {4'b0000, programcounter_reg};
 
 endmodule

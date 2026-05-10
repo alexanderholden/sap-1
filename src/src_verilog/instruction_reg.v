@@ -20,6 +20,6 @@ module instruction_register(
 
     // Outputs
     assign ir_opcode_out = ir_reg[7:4];
-    assign ir_addr_out   = (EI) ? ir_reg[3:0] : 4'bz;
+    assign ir_addr_out   = r_reg[3:0];
 
 endmodule

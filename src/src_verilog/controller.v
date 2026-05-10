@@ -1,74 +1,156 @@
-`timescale 1ns/1ps
-`default_nettype none
+module controller(
+    input  wire       clk,
+    input  wire       clr,
+    input  wire [3:0] inst_in,
 
-module controller_unit(
-    input clk,
-    input rst,
-    input [7:0] inputInstruction,
-    output Cp,
-    output Ep,
-    output Lm,
-    output CE,
-    output Li,
-    output Ei,
-    output La,
-    output Ea,
-    output Lb,
-    output Su,
-    output Eu,
-    output Lo,
-    output HLT
+    output reg Cp,
+    output reg Ep,
+    output reg Lm,
+    output reg CE,
+    output reg Li,
+    output reg Ei,
+    output reg La,
+    output reg Ea,
+    output reg Su,
+    output reg Eu,
+    output reg Lb,
+    output reg Lo,
+    output reg HLT
 );
 
-    parameter IDLE = 8'b00000001;
-    parameter T1   = 8'b00000010;
-    parameter T2   = 8'b00000100;
-    parameter T3   = 8'b00001000;
-    parameter T4   = 8'b00010000;
-    parameter T5   = 8'b00100000;
-    parameter T6   = 8'b01000000;
-    parameter T7   = 8'b10000000;
+    // State encoding
+    parameter IDLE = 3'd0,
+              T0   = 3'd1,
+              T1   = 3'd2,
+              T2   = 3'd3,
+              T3   = 3'd4,
+              T4   = 3'd5,
+              T5   = 3'd6;
 
-    reg [7:0] present, next;
+    reg [2:0] pr_state, nx_state;
+    reg [11:0] control_signal;
 
-    // Present state logic
-    always @(negedge clk) begin
-        if (rst)
-            present <= IDLE;
+    // State register
+    always @(posedge clk or negedge clr) begin
+        if (!clr)
+            pr_state <= IDLE;
         else
-            present <= next;
+            pr_state <= nx_state;
     end
 
-    // Next state logic
-    always @(present, inputInstruction) begin
-        next = IDLE; // default
-        case (present)
-            IDLE: next = T1;
-            T1:   next = T2;
-            T2:   next = T3;
-            T3:   next = T4;
-            T4:   next = T5;
-            T5:   next = T6;
-            T6:   next = T7;
-            T7:   next = T1;
+    // Next state + control logic
+    always @(*) begin
+
+        // defaults
+        control_signal = 12'b000000000000;
+        HLT = 1'b1;
+        nx_state = pr_state;
+
+        case (pr_state)
+
+            IDLE: begin
+                nx_state = T0;
+            end
+
+            T0: begin
+                // Ep, Lm
+                control_signal = 12'b011000000000;
+                nx_state = T1;
+            end
+
+            T1: begin
+                // Cp
+                control_signal = 12'b100000000000;
+                nx_state = T2;
+            end
+
+            T2: begin
+                // CE, Li
+                control_signal = 12'b000110000000;
+                nx_state = T3;
+            end
+
+            T3: begin
+
+                // OUT
+                if (inst_in == 4'b1110) begin
+                    control_signal = 12'b000000010001;
+                end
+
+                // HLT
+                else if (inst_in == 4'b1111) begin
+                    control_signal = 12'b000000000000;
+                    HLT = 1'b0;
+                end
+
+                // other instructions
+                else begin
+                    control_signal = 12'b001001000000;
+                end
+
+                nx_state = T4;
+            end
+
+            T4: begin
+
+                // LDA
+                if (inst_in == 4'b0000) begin
+                    control_signal = 12'b000100100000;
+                end
+
+                // ADD
+                else if (inst_in == 4'b0001) begin
+                    control_signal = 12'b000100000010;
+                end
+
+                // SUB
+                else if (inst_in == 4'b0010) begin
+                    control_signal = 12'b000100000010;
+                end
+
+                else begin
+                    control_signal = 12'b000000000000;
+                end
+
+                nx_state = T5;
+            end
+
+            T5: begin
+
+                // ADD
+                if (inst_in == 4'b0001) begin
+                    control_signal = 12'b000000100100;
+                end
+
+                // SUB
+                else if (inst_in == 4'b0010) begin
+                    control_signal = 12'b000000101100;
+                end
+
+                else begin
+                    control_signal = 12'b000000000000;
+                end
+
+                nx_state = T0;
+            end
+
         endcase
     end
 
-    // ----------------------
-    // Output assignments
-    // ----------------------
-    assign Cp  = (present == T2); // increment PC
-    assign Ep  = (present == T2); // enable PC onto bus
-    assign Lm  = (present == T1 || (present == T4 && (inputInstruction[7:4]==4'b0000 || inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010)));
-    assign CE  = (present == T2 || (present == T5 && (inputInstruction[7:4]==4'b0000 || inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010)));
-    assign Li  = (present == T3);
-    assign Ei  = (present == T4 && (inputInstruction[7:4]==4'b0000 || inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010));
-    assign La  = ((present == T6 && inputInstruction[7:4]==4'b0000) || (present == T7 && (inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010)));
-    assign Ea  = (present == T6 && inputInstruction[7:4]==4'b0000);
-    assign Lb  = (present == T6 && (inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010));
-    assign Su  = ((present == T6 || present == T7) && inputInstruction[7:4]==4'b0010);
-    assign Eu  = (present == T7 && (inputInstruction[7:4]==4'b0001 || inputInstruction[7:4]==4'b0010));
-    assign Lo  = (present == T4 && inputInstruction[7:4]==4'b1110);
-    assign HLT = (present == T4 && inputInstruction[7:4]==4'b1111);
+    // Control signal decoding
+    always @(*) begin
+        Cp = control_signal[11];
+        Ep = control_signal[10];
+        Lm = control_signal[9];
+        CE = control_signal[8];
+        Li = control_signal[7];
+        Ei = control_signal[6];
+        La = control_signal[5];
+        Ea = control_signal[4];
+        Su = control_signal[3];
+        Eu = control_signal[2];
+        Lb = control_signal[1];
+        Lo = control_signal[0];
+    end
 
 endmodule

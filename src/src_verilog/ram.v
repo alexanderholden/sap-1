@@ -26,6 +26,6 @@ module mem(
         ram[15] = 8'b0;
     end
 
-    assign ram_bus_out = CE ? ram[mar_addr] : 8'bz;
+    assign ram_bus_out = ram[mar_addr];
 
 endmodule
