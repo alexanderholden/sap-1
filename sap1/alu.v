@@ -1,8 +1,8 @@
 module add_sub(
-    input  wire [7:0] A,             // accumulator input
-    input  wire [7:0] B,             // B register input
-    input  wire       SU,            // 0 = add, 1 = sub
-    input  wire       EU,            // enable output to bus
+    input  wire [7:0] A,            
+    input  wire [7:0] B,            
+    input  wire       SU,           
+    input  wire       EU,           
     output wire [7:0] ADD_SUB_bus_out
 );
 
