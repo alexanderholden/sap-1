@@ -18,7 +18,6 @@ module controller(
     output reg HLT
   );
 
-  // State encoding
   parameter IDLE = 3'd0,
             T0   = 3'd1,
             T1   = 3'd2,
@@ -31,7 +30,6 @@ module controller(
   reg [2:0] nx_state = T0;
   reg [11:0] control_signal;
 
-  // State register
   always @(posedge clk or negedge clr)
   begin
     if (!clr)
@@ -40,11 +38,9 @@ module controller(
       pr_state <= nx_state;
   end
 
-  // Next state + control logic
   always @(*)
   begin
 
-    // defaults
     control_signal = 12'b000000000000;
     HLT = 1'b1;
     nx_state = pr_state;
@@ -56,21 +52,18 @@ module controller(
         nx_state = T0;
       end
 
-      // MAR <- PC
       T0:
       begin
         control_signal = 12'b011000000000; // EP + LM
         nx_state = T1;
       end
 
-      // PC++
       T1:
       begin
         control_signal = 12'b100000000000; // CP
         nx_state = T2;
       end
 
-      // IR <- RAM
       T2:
       begin
         control_signal = 12'b000110000000; // CE + LI
@@ -80,25 +73,22 @@ module controller(
       T3:
       begin
 
-        // LDA / ADD / SUB
         if (
           inst_in == 4'b0000 ||
           inst_in == 4'b0001 ||
           inst_in == 4'b0010
         )
         begin
-          control_signal = 12'b001001000000; // EI + LM
+          control_signal = 12'b001001000000;
           nx_state = T4;
         end
 
-        // OUT
         else if (inst_in == 4'b1110)
         begin
-          control_signal = 12'b000000010001; // EA + LO
+          control_signal = 12'b000000010001; 
           nx_state = T0;
         end
 
-        // HLT
         else if (inst_in == 4'b1111)
         begin
           HLT = 1'b0;
@@ -116,24 +106,21 @@ module controller(
       T4:
       begin
 
-        // LDA
         if (inst_in == 4'b0000)
         begin
-          control_signal = 12'b000100100000; // CE + LA
+          control_signal = 12'b000100100000; 
           nx_state = T0;
         end
 
-        // ADD
         else if (inst_in == 4'b0001)
         begin
-          control_signal = 12'b000100000010; // CE + LB
+          control_signal = 12'b000100000010; 
           nx_state = T5;
         end
 
-        // SUB
         else if (inst_in == 4'b0010)
         begin
-          control_signal = 12'b000100000010; // CE + LB
+          control_signal = 12'b000100000010;
           nx_state = T5;
         end
 
@@ -147,16 +134,14 @@ module controller(
       T5:
       begin
 
-        // ADD
         if (inst_in == 4'b0001)
         begin
-          control_signal = 12'b000000100100; // EU + LA
+          control_signal = 12'b000000100100; 
         end
 
-        // SUB
         else if (inst_in == 4'b0010)
         begin
-          control_signal = 12'b000000101100; // SU + EU + LA
+          control_signal = 12'b000000101100;
         end
 
         else
@@ -170,7 +155,6 @@ module controller(
     endcase
   end
 
-  // Control signal decoding
   always @(*)
   begin
     Cp = control_signal[11];
