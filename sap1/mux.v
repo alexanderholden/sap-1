@@ -3,19 +3,19 @@ module mux(
     input  wire [7:0] acc_bus_out,
     input  wire [7:0] ADD_SUB_bus_out,
     input  wire [7:0] ram_bus_out,
-    input  wire [7:0] ir_addr_out,  // zero-extended outside if needed
+    input  wire [7:0] ir_addr_out, 
 
-    input  wire EP,  // PC
-    input  wire CE,  // RAM
-    input  wire EI,  // IR
-    input  wire EA,  // ACC
-    input  wire EU,  // ALU
+    input  wire EP,  
+    input  wire CE,  
+    input  wire EI,
+    input  wire EA,  
+    input  wire EU,  
 
     output reg [7:0] bus
 );
 
     always @(*) begin
-        // priority: PC > RAM > IR > ACC > ALU > default
+        
         if (EP)
             bus = pc_bus_out;
         else if (CE)
