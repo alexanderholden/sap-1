@@ -13,7 +13,6 @@ module top_tb;
         $dumpvars(0, top_tb);
     end
 
-    // clock
     initial begin
         clk = 0;
         forever #5 clk = ~clk;
